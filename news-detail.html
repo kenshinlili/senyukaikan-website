@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="lang-cn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1e40af" />
+  <title>新闻稿 | 日本川渝会館</title>
+  <meta name="description" content="日本川渝会馆新闻稿详情页。" />
+  <script>
+    /* 内联语言初始化：不依赖任何外部 JS，避免 CDN 缓存旧 JS 导致切换失灵 */
+    (function(){
+      function _getLang(){
+        try {
+          var p = new URLSearchParams(location.search).get("lang");
+          if (p === "jp" || p === "cn") return p;
+        } catch(e) {}
+        try {
+          var s = localStorage.getItem("senyukaikan_lang");
+          if (s === "jp" || s === "cn") return s;
+        } catch(e) {}
+        return "cn";
+      }
+      function _apply(lang){
+        if (lang !== "jp" && lang !== "cn") lang = "cn";
+        var html = document.documentElement;
+        html.classList.remove("lang-cn","lang-jp");
+        html.classList.add("lang-" + lang);
+        html.setAttribute("lang", lang === "jp" ? "ja" : "zh-CN");
+        try { localStorage.setItem("senyukaikan_lang", lang); } catch(e) {}
+        try {
+          var url = new URL(location.href);
+          if ((url.searchParams.get("lang") || "") !== lang) {
+            url.searchParams.set("lang", lang);
+            history.replaceState(null, "", url.toString());
+          }
+        } catch(e) {}
+        var btns = document.querySelectorAll(".lang-btn, [data-lang]");
+        for (var i=0; i<btns.length; i++) {
+          var d = btns[i].getAttribute("data-lang");
+          if (d === "jp" || d === "cn") btns[i].classList.toggle("active", d === lang);
+        }
+        try { document.dispatchEvent(new CustomEvent("senyu:lang", { detail: { lang: lang } })); } catch(e) {}
+      }
+      window.setLang = _apply;
+      _apply(_getLang());
+
+      // ===== 汉堡菜单：移动端点开/点关 =====
+      function _toggleNav(force){
+        var btn = document.getElementById("navToggle");
+        var menu = document.getElementById("navLinks");
+        if (!btn || !menu) return;
+        var willOpen = (force === true) ? true : (force === false ? false : !menu.classList.contains("open"));
+        menu.classList.toggle("open", willOpen);
+        btn.classList.toggle("open", willOpen);
+        btn.setAttribute("aria-expanded", String(willOpen));
+        btn.setAttribute("aria-label", willOpen ? "关闭菜单" : "展开菜单");
+        try { document.documentElement.classList.toggle("nav-open", willOpen); } catch(e) {}
+      }
+      function _initNav(){
+        var btn = document.getElementById("navToggle");
+        var menu = document.getElementById("navLinks");
+        if (!btn || !menu) return;
+        btn.addEventListener("click", function(e){
+          e.preventDefault(); e.stopPropagation();
+          _toggleNav();
+        });
+        var links = menu.querySelectorAll("a");
+        for (var i = 0; i < links.length; i++) {
+          links[i].addEventListener("click", function(){ _toggleNav(false); });
+        }
+        document.addEventListener("click", function(e){
+          if (!menu.classList.contains("open")) return;
+          var t = e.target;
+          if (t === btn || btn.contains(t)) return;
+          if (menu.contains(t)) return;
+          _toggleNav(false);
+        });
+        document.addEventListener("keydown", function(e){
+          if (e.key === "Escape" || e.keyCode === 27) _toggleNav(false);
+        });
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", _initNav);
+      } else {
+        _initNav();
+      }
+
+      document.addEventListener("click", function(e){
+        var a = e.target && e.target.closest && e.target.closest("a[href]");
+        if (!a) return;
+        var href = a.getAttribute("href") || "";
+        if (href.indexOf("#") === 0) return;
+        if (href.indexOf("javascript:") === 0) return;
+        if (href.indexOf("http://") === 0 || href.indexOf("https://") === 0) return;
+        if (href.indexOf("mailto:") === 0 || href.indexOf("tel:") === 0) return;
+        if (a.target === "_blank") return;
+        if (a.hasAttribute("download")) return;
+        if (!/\.html?(\?|#|$)/.test(href)) return;
+        try {
+          var u = new URL(a.href, location.href);
+          var cur = document.documentElement.classList.contains("lang-jp") ? "jp" : "cn";
+          if (!u.searchParams.get("lang")) u.searchParams.set("lang", cur);
+          a.href = u.pathname + (u.search ? u.search : "") + (u.hash || "");
+        } catch(e) {}
+      }, true);
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <header class="site-header" id="header">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="日本川渝会館">
+        <img class="brand-logo" src="assets/img/logo.png" alt="日本川渝会館株式会社" width="138" height="33" />
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="主导航">
+        <a href="index.html#about"><span class="t-cn">关于我们</span><span class="t-jp">私たちについて</span></a>
+        <a href="news.html" class="active"><span class="t-cn">新闻资讯</span><span class="t-jp">ニュース</span></a>
+        <a href="service.html"><span class="t-cn">会馆服务</span><span class="t-jp">会館サービス</span></a>
+        <a href="index.html#contact" class="nav-cta"><span class="t-cn">联系我们</span><span class="t-jp">お問い合わせ</span></a>
+      </nav>
+
+      <div class="nav-right">
+        <div class="lang-switch" role="group" aria-label="语言切换">
+          <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">JP</button>
+          <button type="button" class="lang-btn active" data-lang="cn" onclick="setLang('cn')">中</button>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开菜单" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="breadcrumb container" aria-label="位置导航">
+    <a href="index.html"><span class="t-cn">首页</span><span class="t-jp">ホーム</span></a>
+    <span class="bc-sep">/</span>
+    <a href="news.html"><span class="t-cn">新闻稿</span><span class="t-jp">プレスリリース</span></a>
+    <span class="bc-sep">/</span>
+    <span id="bcTitle"><span class="t-cn">正文</span><span class="t-jp">本文</span></span>
+  </nav>
+
+  <article class="news-detail" id="newsDetail">
+    <p class="news-loading"><span class="t-cn">加载中…</span><span class="t-jp">読み込み中…</span></p>
+  </article>
+
+  <section class="section section-soft">
+    <div class="container">
+      <p class="back-home">
+        <a href="news.html">← <span class="t-cn">返回新闻列表</span><span class="t-jp">ニュース一覧へ戻る</span></a>
+      </p>
+      <p class="back-home">
+        <a href="index.html#contact">→ <span class="t-cn">联系我们</span><span class="t-jp">お問い合わせ</span></a>
+      </p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <strong><span class="t-cn">日本川渝会馆</span><span class="t-jp">日本川渝会館</span></strong>
+        <p><span class="t-cn">中日经验共享资源对接平台</span><span class="t-jp">経験共有・リソースマッチング・プロジェクトインキュベーション</span></p>
+      </div>
+      <nav class="footer-nav" aria-label="页脚导航">
+        <a href="index.html#about"><span class="t-cn">关于我们</span><span class="t-jp">私たちについて</span></a>
+        <a href="news.html"><span class="t-cn">新闻资讯</span><span class="t-jp">ニュース</span></a>
+        <a href="service.html"><span class="t-cn">会馆服务</span><span class="t-jp">会館サービス</span></a>
+        <a href="index.html#contact"><span class="t-cn">联系我们</span><span class="t-jp">お問い合わせ</span></a>
+      </nav>
+      <p class="copyright">© <span id="year"></span> <span class="t-cn">日本川渝会馆</span><span class="t-jp">日本川渝会館</span> Sichuan-Chongqing Hall, Japan. <span class="t-cn">保留所有权利。</span><span class="t-jp">無断転載を禁じます。</span></p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js?v=4"></script>
+  <script src="assets/js/news-detail.js"></script>
+</body>
+</html>

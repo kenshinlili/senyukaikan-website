@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="lang-cn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1e40af" />
+  <title>会馆服务 | 日本川渝会館</title>
+  <meta name="description" content="日本川渝会馆服务：会馆场地使用租赁、行政手续、法务税务、公司设立、产品展示与市场调查、产品检验、面向日本市场的本地化——为川渝企业进入日本提供一站式支援。" />
+  <script>
+    /* 内联语言初始化：不依赖任何外部 JS，避免 CDN 缓存旧 JS 导致切换失灵 */
+    (function(){
+      function _getLang(){
+        try {
+          var p = new URLSearchParams(location.search).get("lang");
+          if (p === "jp" || p === "cn") return p;
+        } catch(e) {}
+        try {
+          var s = localStorage.getItem("senyukaikan_lang");
+          if (s === "jp" || s === "cn") return s;
+        } catch(e) {}
+        return "cn";
+      }
+      function _apply(lang){
+        if (lang !== "jp" && lang !== "cn") lang = "cn";
+        var html = document.documentElement;
+        html.classList.remove("lang-cn","lang-jp");
+        html.classList.add("lang-" + lang);
+        html.setAttribute("lang", lang === "jp" ? "ja" : "zh-CN");
+        try { localStorage.setItem("senyukaikan_lang", lang); } catch(e) {}
+        try {
+          var url = new URL(location.href);
+          if ((url.searchParams.get("lang") || "") !== lang) {
+            url.searchParams.set("lang", lang);
+            history.replaceState(null, "", url.toString());
+          }
+        } catch(e) {}
+        var btns = document.querySelectorAll(".lang-btn, [data-lang]");
+        for (var i=0; i<btns.length; i++) {
+          var d = btns[i].getAttribute("data-lang");
+          if (d === "jp" || d === "cn") btns[i].classList.toggle("active", d === lang);
+        }
+        try { document.dispatchEvent(new CustomEvent("senyu:lang", { detail: { lang: lang } })); } catch(e) {}
+      }
+      window.setLang = _apply;
+      _apply(_getLang());
+
+      // ===== 汉堡菜单：移动端点开/点关 =====
+      function _toggleNav(force){
+        var btn = document.getElementById("navToggle");
+        var menu = document.getElementById("navLinks");
+        if (!btn || !menu) return;
+        var willOpen = (force === true) ? true : (force === false ? false : !menu.classList.contains("open"));
+        menu.classList.toggle("open", willOpen);
+        btn.classList.toggle("open", willOpen);
+        btn.setAttribute("aria-expanded", String(willOpen));
+        btn.setAttribute("aria-label", willOpen ? "关闭菜单" : "展开菜单");
+        try { document.documentElement.classList.toggle("nav-open", willOpen); } catch(e) {}
+      }
+      function _initNav(){
+        var btn = document.getElementById("navToggle");
+        var menu = document.getElementById("navLinks");
+        if (!btn || !menu) return;
+        btn.addEventListener("click", function(e){
+          e.preventDefault(); e.stopPropagation();
+          _toggleNav();
+        });
+        var links = menu.querySelectorAll("a");
+        for (var i = 0; i < links.length; i++) {
+          links[i].addEventListener("click", function(){ _toggleNav(false); });
+        }
+        document.addEventListener("click", function(e){
+          if (!menu.classList.contains("open")) return;
+          var t = e.target;
+          if (t === btn || btn.contains(t)) return;
+          if (menu.contains(t)) return;
+          _toggleNav(false);
+        });
+        document.addEventListener("keydown", function(e){
+          if (e.key === "Escape" || e.keyCode === 27) _toggleNav(false);
+        });
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", _initNav);
+      } else {
+        _initNav();
+      }
+
+      document.addEventListener("click", function(e){
+        var a = e.target && e.target.closest && e.target.closest("a[href]");
+        if (!a) return;
+        var href = a.getAttribute("href") || "";
+        if (href.indexOf("#") === 0) return;
+        if (href.indexOf("javascript:") === 0) return;
+        if (href.indexOf("http://") === 0 || href.indexOf("https://") === 0) return;
+        if (href.indexOf("mailto:") === 0 || href.indexOf("tel:") === 0) return;
+        if (a.target === "_blank") return;
+        if (a.hasAttribute("download")) return;
+        if (!/\.html?(\?|#|$)/.test(href)) return;
+        try {
+          var u = new URL(a.href, location.href);
+          var cur = document.documentElement.classList.contains("lang-jp") ? "jp" : "cn";
+          if (!u.searchParams.get("lang")) u.searchParams.set("lang", cur);
+          a.href = u.pathname + (u.search ? u.search : "") + (u.hash || "");
+        } catch(e) {}
+      }, true);
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- ===== 顶部导航（4 项） ===== -->
+  <header class="site-header" id="header">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="日本川渝会館">
+        <img class="brand-logo" src="assets/img/logo.png" alt="日本川渝会館株式会社" width="138" height="33" />
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="主导航">
+        <a href="index.html#about"><span class="t-cn">关于我们</span><span class="t-jp">私たちについて</span></a>
+        <a href="news.html"><span class="t-cn">新闻资讯</span><span class="t-jp">ニュース</span></a>
+        <a href="service.html" class="active"><span class="t-cn">会馆服务</span><span class="t-jp">会館サービス</span></a>
+        <a href="index.html#contact" class="nav-cta"><span class="t-cn">联系我们</span><span class="t-jp">お問い合わせ</span></a>
+      </nav>
+
+      <div class="nav-right">
+        <div class="lang-switch" role="group" aria-label="语言切换">
+          <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">JP</button>
+          <button type="button" class="lang-btn active" data-lang="cn" onclick="setLang('cn')">中</button>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开菜单" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="breadcrumb container" aria-label="位置导航">
+    <a href="index.html"><span class="t-cn">首页</span><span class="t-jp">ホーム</span></a>
+    <span class="bc-sep">/</span>
+    <span><span class="t-cn">会馆服务</span><span class="t-jp">会館サービス</span></span>
+  </nav>
+
+  <section class="page-head">
+    <div class="container">
+      <p class="kicker"><span class="t-cn">SERVICE · 会馆服务</span><span class="t-jp">SERVICE · 会館サービス</span></p>
+      <h1><span class="t-cn">进入日本的一站式支援</span><span class="t-jp">日本進出のワンストップ支援</span></h1>
+      <p class="lead">
+        <span class="t-cn">从行政手续到市场本地化，会馆核心服务覆盖川渝企业进入日本的全流程需求。</span>
+        <span class="t-jp">行政手続きからローカライズまで、会館のコアサービスで川渝企業の日本進出を全面的に支援します。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== 场地使用租赁横幅（图1） ===== -->
+  <section class="section section-soft" style="padding-top:0">
+    <div class="container">
+      <div class="venue-banner">
+        <figure class="vb-poster">
+          <img src="assets/img/venue_poster.jpg?v=2" alt="会馆场地利用" width="1000" height="1414" loading="eager" decoding="async" />
+        </figure>
+        <div class="vb-text">
+          <span class="vb-tag"><span class="t-cn">VENUE · 场地租赁</span><span class="t-jp">VENUE · 会場レンタル</span></span>
+          <h2><span class="t-cn">日本川渝会馆会场利用</span><span class="t-jp">日本川渝会館会場利用</span></h2>
+          <p class="t-cn">日本川渝会馆位于秋叶原站步行约 300 米处，可容纳约 50 名，是举办活动的优质空间。设施内配备约 100 平方米的活动厅、会议室、大型 LED 屏幕、无线麦克风和音响系统、可移动式电视等完备配套。</p>
+          <p class="t-jp">日本川渝会館は、秋葉原駅から徒歩約300メートルの場所に位置し、最大約50名を収容できるイベントスペースです。施設内には、約100 平米のイベントホール、会議室、大型LEDスクリーン、ワイヤレスマイクと音響システム、可動式テレビなど、設備が完備しています。</p>
+
+          <ul class="vb-list">
+            <li><span class="t-cn">平日 全日 / 半日（4h）</span><span class="t-jp">平日 終日 / 半日（4h）</span><b>¥100,000 / ¥50,000</b></li>
+            <li><span class="t-cn">周末 全日 / 半日（4h）</span><span class="t-jp">週末 終日 / 半日（4h）</span><b>¥120,000 / ¥60,000</b></li>
+            <li><span class="t-cn">会议室 / 1 小时</span><span class="t-jp">会議室利用 / 1時間</span><b>¥10,000</b></li>
+            <li><span class="t-cn">会馆人员辅助 / 1 小时·1 名</span><span class="t-jp">会館スタッフ補助 / 1時間·1名</span><b>¥5,000<span class="t-cn">（税别）</span><span class="t-jp">（税別）</span></b></li>
+            <li><span class="t-cn">LED 大型屏幕 (3840×1920mm)</span><span class="t-jp">LED大型スクリーン (3840×1920mm)</span><b>1 <span class="t-cn">台</span><span class="t-jp">台</span></b></li>
+            <li><span class="t-cn">75 寸 / 32 寸 移动电视</span><span class="t-jp">75インチ / 32インチ 可動式テレビ</span><b>各 1 <span class="t-cn">台</span><span class="t-jp">台</span></b></li>
+            <li><span class="t-cn">讲台 / 无线麦克风 2 支 / 椅子最多 50 把</span><span class="t-jp">演台 / ワイヤレスマイク2本 / 椅子50脚まで</span><b>—</b></li>
+          </ul>
+          <p class="vb-note"><span class="t-cn">预订或询问详情请联系会馆 / 利用可能時間 10:00–18:00</span><span class="t-jp">ご予約・お問合せは会館まで / 利用可能時間 10:00–18:00</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="service-grid" id="serviceGrid">
+        <p class="news-loading"><span class="t-cn">加载中…</span><span class="t-jp">読み込み中…</span></p>
+      </div>
+
+      <div class="service-cta">
+        <p class="service-cta-lead">
+          <span class="t-cn">需要更多关于服务细节的支持？请直接联系会馆。</span>
+          <span class="t-jp">サービスの詳細については、お気軽にお問い合わせください。</span>
+        </p>
+        <a class="btn btn-primary" href="index.html#contact">
+          <span class="t-cn">联系我们</span><span class="t-jp">お問い合わせ</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <strong><span class="t-cn">日本川渝会馆</span><span class="t-jp">日本川渝会館</span></strong>
+        <p><span class="t-cn">中日经验共享资源对接平台</span><span class="t-jp">経験共有・リソースマッチング・プロジェクトインキュベーション</span></p>
+      </div>
+      <nav class="footer-nav" aria-label="页脚导航">
+        <a href="index.html#about"><span class="t-cn">关于我们</span><span class="t-jp">私たちについて</span></a>
+        <a href="news.html"><span class="t-cn">新闻资讯</span><span class="t-jp">ニュース</span></a>
+        <a href="service.html"><span class="t-cn">会馆服务</span><span class="t-jp">会館サービス</span></a>
+        <a href="index.html#contact"><span class="t-cn">联系我们</span><span class="t-jp">お問い合わせ</span></a>
+      </nav>
+      <p class="copyright">© <span id="year"></span> <span class="t-cn">日本川渝会馆</span><span class="t-jp">日本川渝会館</span> Sichuan-Chongqing Hall, Japan. <span class="t-cn">保留所有权利。</span><span class="t-jp">無断転載を禁じます。</span></p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js?v=4"></script>
+  <script src="assets/js/service.js"></script>
+</body>
+</html>
