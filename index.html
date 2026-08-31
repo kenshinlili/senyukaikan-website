@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="lang-cn">
+<html lang="ja" class="lang-jp">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#1e40af" />
+  <meta name="theme-color" content="#353c5d" />
+  <style>.t-cn,.t-jp{display:none}html.lang-cn .t-cn{display:inline}html.lang-jp .t-jp{display:inline}</style>
   <title>日本川渝会馆株式会社 - 中日经验共享资源对接平台</title>
   <meta name="description" content="日本川渝会馆株式会社是日本川渝总商会发起成立，专门为推动川渝与日本间文化交流和经贸合作而成立的实体平台。采用「平台+项目」模式，打造中日的经验共享、资源对接、项目孵化平台。" />
   <script>
@@ -18,7 +19,7 @@
           var s = localStorage.getItem("senyukaikan_lang");
           if (s === "jp" || s === "cn") return s;
         } catch(e) {}
-        return "cn";
+        return "jp";
       }
       function _apply(lang){
         if (lang !== "jp" && lang !== "cn") lang = "cn";
@@ -40,6 +41,7 @@
           if (d === "jp" || d === "cn") btns[i].classList.toggle("active", d === lang);
         }
         try { document.dispatchEvent(new CustomEvent("senyu:lang", { detail: { lang: lang } })); } catch(e) {}
+        try { _enforceLang(); } catch(e) {}
       }
       // 暴露全局：<button onclick="setLang('jp')"> 也能用
       window.setLang = _apply;
@@ -105,6 +107,21 @@
       } else {
         _initNav();
       }
+
+      /* 最终兜底：DOMContentLoaded 后用 inline style 强制 .t-cn/.t-jp 显隐
+         —— 任何 main.css 缓存问题、规则冲突都被 inline style 覆盖（最高优先级） */
+      function _enforceLang(){
+        var lang = document.documentElement.classList.contains("lang-jp") ? "jp" : "cn";
+        var tcn = document.querySelectorAll(".t-cn");
+        var tjp = document.querySelectorAll(".t-jp");
+        for (var i=0; i<tcn.length; i++) tcn[i].style.display = (lang==="cn") ? "" : "none";
+        for (var j=0; j<tjp.length; j++) tjp[j].style.display = (lang==="jp") ? "" : "none";
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", _enforceLang);
+      } else {
+        _enforceLang();
+      }
     })();
   </script>
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -128,7 +145,7 @@
       <div class="nav-right">
         <div class="lang-switch" role="group" aria-label="语言切换">
           <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">JP</button>
-          <button type="button" class="lang-btn active" data-lang="cn" onclick="setLang('cn')">中</button>
+          <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中</button>
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="展开菜单" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -144,7 +161,7 @@
       <p class="hero-eyebrow">
         <span class="t-cn">中日经验共享资源对接平台</span><span class="t-jp">経験共有・リソースマッチング・プロジェクトインキュベーション</span>
       </p>
-      <h1 class="hero-title"><span class="t-cn">日本川渝会馆</span><span class="t-jp">日本川渝会館</span></h1>
+      <h1 class="hero-title"><span class="t-cn">日本川渝会馆株式会社</span><span class="t-jp">日本川渝会館株式会社</span></h1>
       <p class="hero-desc">
         <span class="t-jp">日本川渝会館は、「プラットフォーム＋プロジェクト」のモデルにより、日中間のビジネス連携と事業創出を支援する拠点です。</span>
         <span class="t-cn">日本川渝会馆株式会社是日本川渝总商会发起成立，专门为推动川渝与日本间文化交流和经贸合作而成立的实体平台。</span>
@@ -158,19 +175,24 @@
   </section>
 
   <!-- ===== 蓝色平台简介段（中日双语） ===== -->
-  <section class="intro-blue">
-    <div class="container">
-      <h2><span class="t-cn">日本川渝会馆株式会社</span><span class="t-jp">日本川渝会館株式会社</span></h2>
-      <p class="intro-rule"></p>
-      <div class="intro-body">
-        <p class="t-cn">日本川渝会馆株式会社是日本川渝总商会发起成立，专门为推动川渝与日本间文化交流和经贸合作而成立的「日川渝会馆」实体平台。采用「平台+项目」模式，打造中日的经验共享、资源对接、项目孵化平台。</p>
-        <p class="t-cn">日本川渝会馆构建平台支撑服务，如行政服务、法务税务、产品展示、产品调研、公司注册、产品检验、产品本地化改造等，建设展厅，精准对接渠道，定期举办推介会，让川渝优质文旅、美食、产品持续曝光并获取商机。</p>
-        <p class="t-cn">日本川渝会馆为孵化重点项目，提供精准订单需求、金融供应链等支持，并通过股权投资、品牌联营、经销合作等方式孵化项目。</p>
+<section class="intro-blue">
+    <div class="container intro-grid">
+      <figure class="intro-photo">
+        <img src="assets/img/company.jpg" alt="日本川渝会館大楼" width="1000" height="1333" loading="lazy" decoding="async" />
+      </figure>
+      <div class="intro-text">
+        <h2><span class="t-cn">日本川渝会馆株式会社</span><span class="t-jp">日本川渝会館株式会社</span></h2>
+        <p class="intro-rule"></p>
+        <div class="intro-body">
+          <p class="t-cn">日本川渝会馆株式会社是日本川渝总商会发起成立，专门为推动川渝与日本间文化交流和经贸合作而成立的「日川渝会馆」实体平台。采用「平台+项目」模式，打造中日的经验共享、资源对接、项目孵化平台。</p>
+          <p class="t-cn">日本川渝会馆构建平台支撑服务，如行政服务、法务税务、产品展示、产品调研、公司注册、产品检验、产品本地化改造等，建设展厅，精准对接渠道，定期举办推介会，让川渝优质文旅、美食、产品持续曝光并获取商机。</p>
+          <p class="t-cn">日本川渝会馆为孵化重点项目，提供精准订单需求、金融供应链等支持，并通过股权投资、品牌联营、经销合作等方式孵化项目。</p>
 
-        <p class="t-jp">日本川渝会館は、「プラットフォーム＋プロジェクト」のモデルにより、日中間のビジネス連携と事業創出を支援する拠点です。</p>
-        <p class="t-jp">行政手続き、法務・税務、会社設立、製品展示・市場調査、製品検査、日本市場向けローカライズなど、日本進出に必要な支援をワンストップで提供します。</p>
-        <p class="t-jp">また、展示スペースを活用した製品・事業の発信、日本の流通チャネル・パートナーとのマッチング、プロモーション説明会を通じて、川渝地域の高品質な文化・観光・食品・製品の事業機会を創出します。</p>
-        <p class="t-jp">さらに、有望なプロジェクトについては、投資、ブランド共同運営、販売代理などの形で事業化・成長を支援します。</p>
+          <p class="t-jp">日本川渝会館は、「プラットフォーム＋プロジェクト」のモデルにより、日中間のビジネス連携と事業創出を支援する拠点です。</p>
+          <p class="t-jp">行政手続き、法務・税務、会社設立、製品展示・市場調査、製品検査、日本市場向けローカライズなど、日本進出に必要な支援をワンストップで提供します。</p>
+          <p class="t-jp">また、展示スペースを活用した製品・事業の発信、日本の流通チャネル・パートナーとのマッチング、プロモーション説明会を通じて、川渝地域の高品質な文化・観光・食品・製品の事業機会を創出します。</p>
+          <p class="t-jp">さらに、有望なプロジェクトについては、投資、ブランド共同運営、販売代理などの形で事業化・成長を支援します。</p>
+        </div>
       </div>
     </div>
   </section>
@@ -178,39 +200,46 @@
   <!-- ===== 关于我们：6 个子板块 ===== -->
   <section class="section section-soft" id="about">
 
-    <!-- 子锚：公司信息 -->
+    <!-- 子锚：公司概要（公司信息 + 主要成员合并） -->
     <div class="container sub-anchor" id="company">
       <header class="section-head section-head-left">
-        <p class="kicker"><span class="t-cn">COMPANY · 公司信息</span><span class="t-jp">COMPANY · 会社情報</span></p>
+        <p class="kicker"><span class="t-cn">COMPANY · 公司概要</span><span class="t-jp">COMPANY · 会社概要</span></p>
         <h2><span class="t-cn">日本川渝会馆株式会社</span><span class="t-jp">日本川渝会館株式会社</span></h2>
         <p class="sub"><span class="t-cn">Nihon Senyu Kaikan Co., Ltd.</span><span class="t-jp">Nihon Senyu Kaikan Co., Ltd.</span></p>
       </header>
 
       <div class="co-grid">
-        <figure class="co-photo">
-          <img src="assets/img/company.jpg" alt="日本川渝会館大楼" width="1000" height="1333" loading="lazy" decoding="async" />
+        <figure class="members-photo">
+          <img src="assets/img/members.jpg" alt="主要成員合影" width="1016" height="614" loading="lazy" decoding="async" />
         </figure>
         <div class="co-card">
           <dl class="co-list">
-            <div><dt><span class="bar"></span><span class="t-cn">所在地</span><span class="t-jp">所在地</span></dt>
-              <dd>〒101-0024 <span class="t-cn">东京都千代田区神田和泉町1番地8-11 サン・センター-ビル 5階</span><span class="t-jp">東京都千代田区神田和泉町1番地8-11 サン・センター-ビル 5階</span></dd>
-            </div>
-            <div><dt><span class="bar"></span><span class="t-cn">电话</span><span class="t-jp">電話</span></dt>
-              <dd><a href="tel:0358298508">03-5829-8508</a></dd>
-            </div>
             <div><dt><span class="bar"></span><span class="t-cn">创立时间</span><span class="t-jp">設立日</span></dt>
               <dd><span class="t-cn">2025年6月20日</span><span class="t-jp">2025年6月20日</span></dd>
             </div>
             <div><dt><span class="bar"></span><span class="t-cn">资本金</span><span class="t-jp">資本金</span></dt>
               <dd>5,400<span class="t-cn">万円</span><span class="t-jp">万円</span></dd>
             </div>
-            <div><dt><span class="bar"></span><span class="t-cn">邮箱</span><span class="t-jp">メール</span></dt>
-              <dd><a href="mailto:info@senyukaikan.co.jp">info@senyukaikan.co.jp</a></dd>
-            </div>
-            <div><dt><span class="bar"></span><span class="t-cn">法人</span><span class="t-jp">代表者</span></dt>
-              <dd><span class="co-rep">周 密 <small>Zhou Mi</small></span></dd>
-            </div>
           </dl>
+
+          <div class="members-compact">
+            <div class="mc-item">
+              <span class="mc-label"><span class="bar"></span><span class="t-cn">法人</span><span class="t-jp">代表者</span></span>
+              <span class="mc-name mc-name-lead">周 密</span>
+            </div>
+            <div class="mc-item">
+              <span class="mc-label"><span class="bar"></span><span class="t-cn">董事</span><span class="t-jp">取締役</span></span>
+              <span class="mc-name">李勇男 · 賀乃和 · 呂敏 · 楊泉</span>
+            </div>
+            <div class="mc-item">
+              <span class="mc-label"><span class="bar"></span><span class="t-cn">监事</span><span class="t-jp">監事</span></span>
+              <span class="mc-name">徐佳鋭 · 楊瀚</span>
+            </div>
+            <div class="mc-item">
+              <span class="mc-label"><span class="bar"></span><span class="t-cn">发起设立</span><span class="t-jp">発起・設立</span></span>
+              <span class="mc-name"><span class="t-cn">日本川渝总商会</span><span class="t-jp">日本川渝総商会</span></span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -226,66 +255,38 @@
             <p class="kicker"><span class="t-cn">BUSINESS · 事业内容</span><span class="t-jp">BUSINESS · 事業內容</span></p>
             <h2><span class="t-cn">作为日中桥梁的综合商务</span><span class="t-jp">中日の架け橋となる総合ビジネス</span></h2>
           </header>
-          <p class="biz-lead">
-            <span class="t-cn">作为日中桥梁，我们开展广告宣传、活动运营、观光旅游、房地产、贸易、电商等多元化业务，并通过企业及地方政府的品牌建设支持、口笔译服务、旅游推广等，全力促进日中两国的商业与文化交流。</span>
-            <span class="t-jp">日本と中国の架け橋として、広告・宣伝、イベント運営、観光・旅行、不動産、貿易、ＥＣなど多様な事業を展開し、企業や自治体のブランディング支援、通訳・翻訳サービス、観光プロモーションを通じて、日中両国のビジネスと文化交流を促進する総合ビジネスを支援いたします。</span>
-          </p>
+          <ul class="biz-lead">
+            <li class="t-cn"><span class="biz-label"><span class="bar"></span><b>核心目标</b></span><span class="biz-content">全力促进日中两国的商业与文化交流</span></li>
+            <li class="t-jp"><span class="biz-label"><span class="bar"></span><b>核心目標</b></span><span class="biz-content">日中両国のビジネスと文化交流の促進</span></li>
+            <li class="t-cn"><span class="biz-label"><span class="bar"></span><b>支撑业务</b></span><span class="biz-content">行政服务、产品调研、产品进口检验、产品本地化设计、销售渠道对接、活动运营、营销推广、电商运营</span></li>
+            <li class="t-jp"><span class="biz-label"><span class="bar"></span><b>支援業務</b></span><span class="biz-content">行政手続、市場調査、製品検査、日本市場向けローカライズ、販路マッチング、イベント運営、プロモーション、EC運営</span></li>
+          </ul>
         </div>
       </div>
 
-      <!-- 简洁的「新闻列表」按钮（原 6 宫格已删除） -->
+      <!-- 会馆服务入口（原新闻 CTA，按用户需求改） -->
       <div class="news-cta">
-        <a class="news-cta-btn" href="news.html">
+        <a class="news-cta-btn" href="service.html">
           <span class="news-cta-text">
-            <span class="t-cn">了解会馆最新动态与官方发布</span>
-            <span class="t-jp">会館の最新情報と公式リリースを見る</span>
+            <span class="t-cn">查看会馆服务</span>
+            <span class="t-jp">会館サービスを見る</span>
           </span>
           <span class="news-cta-arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </div>
 
-    <!-- 子锚：主要成员 -->
-    <div class="container sub-anchor" id="members">
-      <header class="section-head section-head-left">
-        <p class="kicker"><span class="t-cn">MEMBERS · 主要成員</span><span class="t-jp">MEMBERS · 主要成員</span></p>
-        <h2><span class="t-cn">主要成员</span><span class="t-jp">主要成員</span></h2>
+    <!-- 子锚：新闻资讯（最新 4 篇） -->
+    <div class="container sub-anchor" id="news">
+      <header class="section-head">
+        <p class="kicker"><span class="t-cn">NEWS · 资讯</span><span class="t-jp">NEWS · ニュース</span></p>
+        <h2><span class="t-cn">新闻资讯</span><span class="t-jp">ニュース</span></h2>
       </header>
-
-      <div class="members-row">
-        <div class="members-list">
-          <div class="m-item m-item-lead">
-            <span class="bar"></span>
-            <div class="m-text">
-              <p class="m-label"><span class="t-cn">法人</span><span class="t-jp">代表者</span></p>
-              <p class="m-name">周 密 <small>Zhou Mi</small></p>
-            </div>
-          </div>
-          <div class="m-item">
-            <span class="bar"></span>
-            <div class="m-text">
-              <p class="m-label"><span class="t-cn">董事</span><span class="t-jp">取締役</span></p>
-              <p class="m-name">李勇男 · 賀乃和 · 呂敏 · 楊泉</p>
-            </div>
-          </div>
-          <div class="m-item">
-            <span class="bar"></span>
-            <div class="m-text">
-              <p class="m-label"><span class="t-cn">监事</span><span class="t-jp">監事</span></p>
-              <p class="m-name">徐佳鋭 · 楊瀚</p>
-            </div>
-          </div>
-          <div class="m-item">
-            <span class="bar"></span>
-            <div class="m-text">
-              <p class="m-label"><span class="t-cn">发起设立</span><span class="t-jp">発起・設立</span></p>
-              <p class="m-name"><span class="t-cn">日本川渝总商会</span><span class="t-jp">日本川渝総商会</span></p>
-            </div>
-          </div>
-        </div>
-        <figure class="members-photo">
-          <img src="assets/img/members.jpg" alt="主要成員合影" width="1016" height="614" loading="lazy" decoding="async" />
-        </figure>
+      <div class="news-preview" id="newsPreview">
+        <p class="news-loading"><span class="t-cn">加载中…</span><span class="t-jp">読み込み中…</span></p>
+      </div>
+      <div class="news-view-all">
+        <a href="news.html"><span class="t-cn">查看全部</span><span class="t-jp">すべて見る</span> <span aria-hidden="true">→</span></a>
       </div>
     </div>
 
@@ -295,14 +296,10 @@
         <p class="kicker"><span class="t-cn">GALLERY · 会館写真</span><span class="t-jp">GALLERY · 会館写真</span></p>
         <h2><span class="t-cn">会馆写真</span><span class="t-jp">会館写真</span></h2>
       </header>
-      <div class="gallery-grid">
-        <figure><img src="assets/img/g_大厅1.jpg" alt="ホール 1" width="900" height="563" loading="lazy" decoding="async" /></figure>
-        <figure><img src="assets/img/g_门厅.jpg" alt="エントランス" width="900" height="609" loading="lazy" decoding="async" /></figure>
+      <div class="gallery-grid gallery-grid-4">
         <figure><img src="assets/img/g_门厅2.jpg" alt="エントランス2" width="900" height="692" loading="lazy" decoding="async" /></figure>
         <figure><img src="assets/img/g_大厅2.jpg" alt="ホール 2" width="900" height="583" loading="lazy" decoding="async" /></figure>
         <figure><img src="assets/img/g_洽谈区1.jpg" alt="商談エリア 1" width="900" height="550" loading="lazy" decoding="async" /></figure>
-        <figure><img src="assets/img/g_洽谈区2.jpg" alt="商談エリア 2" width="900" height="562" loading="lazy" decoding="async" /></figure>
-        <figure><img src="assets/img/g_办公室1.jpg" alt="オフィス 1" width="900" height="558" loading="lazy" decoding="async" /></figure>
         <figure><img src="assets/img/g_办公室2.jpg" alt="オフィス 2" width="900" height="558" loading="lazy" decoding="async" /></figure>
       </div>
     </div>
@@ -339,7 +336,6 @@
       <div class="contact-info">
         <p class="kicker"><span class="t-cn">CONTACT · 联系我们</span><span class="t-jp">CONTACT · お問い合わせ</span></p>
         <h2><span class="t-cn">开启合作</span><span class="t-jp">協働を始める</span></h2>
-        <p class="lead"><span class="t-cn">日本落地、资源对接、项目孵化——欢迎随时来信。</span><span class="t-jp">日本進出・リソースマッチング・プロジェクト孵化——お気軽にお問い合わせください。</span></p>
         <dl class="contact-list">
           <div>
             <dt><span class="bar"></span><span class="t-cn">所在地</span><span class="t-jp">所在地</span></dt>
@@ -354,6 +350,9 @@
             <dd><a href="mailto:info@senyukaikan.co.jp">info@senyukaikan.co.jp</a></dd>
           </div>
         </dl>
+        <figure class="contact-map">
+          <img src="assets/img/access_map.png" alt="アクセス地図 / 交通地图" width="950" height="500" loading="lazy" decoding="async" />
+        </figure>
       </div>
       <form class="contact-form" id="contactForm" action="https://formspree.io/f/mjyvbonl" method="POST" novalidate>
         <input type="hidden" name="_subject" value="【日本川渝会館】新しいお問い合わせ" />
@@ -373,7 +372,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="footer-brand">
-        <strong><span class="t-cn">日本川渝会馆</span><span class="t-jp">日本川渝会館</span></strong>
+        <strong><span class="t-cn">日本川渝会馆株式会社</span><span class="t-jp">日本川渝会館株式会社</span></strong>
         <p><span class="t-cn">中日经验共享资源对接平台</span><span class="t-jp">経験共有・リソースマッチング・プロジェクトインキュベーション</span></p>
       </div>
       <nav class="footer-nav" aria-label="页脚导航">
@@ -382,10 +381,11 @@
         <a href="service.html"><span class="t-cn">会馆服务</span><span class="t-jp">会館サービス</span></a>
         <a href="#contact"><span class="t-cn">联系我们</span><span class="t-jp">お問い合わせ</span></a>
       </nav>
-      <p class="copyright">© <span id="year"></span> <span class="t-cn">日本川渝会馆</span><span class="t-jp">日本川渝会館</span> Sichuan-Chongqing Hall, Japan. <span class="t-cn">保留所有权利。</span><span class="t-jp">無断転載を禁じます。</span></p>
+      <p class="copyright">© <span id="year"></span> <span class="t-cn">日本川渝会馆株式会社</span><span class="t-jp">日本川渝会館株式会社</span> Sichuan-Chongqing Hall, Japan. <span class="t-cn">保留所有权利。</span><span class="t-jp">無断転載を禁じます。</span></p>
     </div>
   </footer>
 
   <script src="assets/js/main.js?v=4"></script>
+  <script src="assets/js/news-preview.js?v=1"></script>
 </body>
 </html>

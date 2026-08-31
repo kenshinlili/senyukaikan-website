@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="lang-cn">
+<html lang="ja" class="lang-jp">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#1e40af" />
+  <meta name="theme-color" content="#353c5d" />
+  <style>.t-cn,.t-jp{display:none}html.lang-cn .t-cn{display:inline}html.lang-jp .t-jp{display:inline}</style>
   <title>会馆服务 | 日本川渝会館</title>
   <meta name="description" content="日本川渝会馆服务：会馆场地使用租赁、行政手续、法务税务、公司设立、产品展示与市场调查、产品检验、面向日本市场的本地化——为川渝企业进入日本提供一站式支援。" />
   <script>
@@ -18,7 +19,7 @@
           var s = localStorage.getItem("senyukaikan_lang");
           if (s === "jp" || s === "cn") return s;
         } catch(e) {}
-        return "cn";
+        return "jp";
       }
       function _apply(lang){
         if (lang !== "jp" && lang !== "cn") lang = "cn";
@@ -126,7 +127,7 @@
       <div class="nav-right">
         <div class="lang-switch" role="group" aria-label="语言切换">
           <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">JP</button>
-          <button type="button" class="lang-btn active" data-lang="cn" onclick="setLang('cn')">中</button>
+          <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中</button>
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="展开菜单" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -201,7 +202,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="footer-brand">
-        <strong><span class="t-cn">日本川渝会馆</span><span class="t-jp">日本川渝会館</span></strong>
+        <strong><span class="t-cn">日本川渝会馆株式会社</span><span class="t-jp">日本川渝会館株式会社</span></strong>
         <p><span class="t-cn">中日经验共享资源对接平台</span><span class="t-jp">経験共有・リソースマッチング・プロジェクトインキュベーション</span></p>
       </div>
       <nav class="footer-nav" aria-label="页脚导航">
@@ -210,7 +211,7 @@
         <a href="service.html"><span class="t-cn">会馆服务</span><span class="t-jp">会館サービス</span></a>
         <a href="index.html#contact"><span class="t-cn">联系我们</span><span class="t-jp">お問い合わせ</span></a>
       </nav>
-      <p class="copyright">© <span id="year"></span> <span class="t-cn">日本川渝会馆</span><span class="t-jp">日本川渝会館</span> Sichuan-Chongqing Hall, Japan. <span class="t-cn">保留所有权利。</span><span class="t-jp">無断転載を禁じます。</span></p>
+      <p class="copyright">© <span id="year"></span> <span class="t-cn">日本川渝会馆株式会社</span><span class="t-jp">日本川渝会館株式会社</span> Sichuan-Chongqing Hall, Japan. <span class="t-cn">保留所有权利。</span><span class="t-jp">無断転載を禁じます。</span></p>
     </div>
   </footer>
 
